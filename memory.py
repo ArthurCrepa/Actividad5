@@ -85,7 +85,7 @@ def draw():
     ontimer(draw, 100)
 
 shuffle(tiles)
-setup(520, 520, 370, 0)
+setup(540, 540, 370, 0)
 addshape(car)
 hideturtle()
 tracer(False)
