@@ -24,6 +24,7 @@ Explicaciones
 
 *Segundo Caso:* Para verificar que el juego esté completo, el programa realizado se asegura de contar cuántos cuadros siguen escondidos, si no hay ninguno este terminará y anunciará que has terminado.
 
-*Tercer Caso:* 
+*Tercer Caso:* La función square() dibuja los cuadros y la función draw() se encarga de centrar las letras o números dentro de estos cuadros. Para lograr esto, se utilizan las funciones xy() y goto() para colocar el texto en las coordenadas exactas dentro de cada cuadro. Se añade un ajuste de posición con goto(x + 25, y + 8) para que las letras o números queden centrados vertical y horizontalmente en el cuadro.
 
 *Cuarto Caso:* 
+En lugar de usar solo dígitos, el código introduce letras del alfabeto en la lista tiles, que contiene tanto letras como números. Esto incrementa el desafío para la memoria del usuario, ya que debe recordar combinaciones de letras y números. La función tap() gestiona los toques y, si dos baldosas coinciden, se revela la letra o número correspondiente. Este cambio añade un elemento nuevo al juego, mejorando la capacidad de retención del jugador al introducir un conjunto más variado de símbolos.
