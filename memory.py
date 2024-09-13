@@ -29,22 +29,30 @@ def xy(count):
 
 def tap(x, y):
     "Update mark and hidden tiles based on tap."
+    global taps
     spot = index(x, y)
     mark = state['mark']
 
-    if mark is None or mark == spot or tiles[mark] != tiles[spot]:
-        state['mark'] = spot
-    else:
-        hide[spot] = False
-        hide[mark] = False
-        state['mark'] = None
-
+    if hide[spot]:
+        taps += 1   
+        if mark is None or mark == spot or tiles[mark] != tiles[spot]:
+            state['mark'] = spot
+        else:
+            hide[spot] = False
+            hide[mark] = False
+            state['mark'] = None
+            
 def draw():
     "Draw image and tiles."
     clear()
     goto(0, 0)
     shape(car)
     stamp()
+
+    up()
+    goto(0, 220)
+    color('black')
+    write(f'TAPS: {taps}', align='center', font=('Arial', 24, 'bold'))
 
     for count in range(64):
         if hide[count]:
