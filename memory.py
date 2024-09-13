@@ -1,14 +1,16 @@
-from random import *
+from random import shuffle
 from turtle import *
 from freegames import path
 
 car = path('car.gif')
+# Usar letras del alfabeto en lugar de dígitos
 tiles = list('ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789') * 2
 state = {'mark': None}
 hide = [True] * 64
+taps = 0 
 
 def square(x, y):
-    "Draw white square with black outline at (x, y)."
+    """Draw white square with black outline at (x, y)."""
     up()
     goto(x, y)
     down()
@@ -20,59 +22,70 @@ def square(x, y):
     end_fill()
 
 def index(x, y):
-    "Convert (x, y) coordinates to tiles index."
+    """Convert (x, y) coordinates to tiles index."""
     return int((x + 200) // 50 + ((y + 200) // 50) * 8)
 
 def xy(count):
-    "Convert tiles count to (x, y) coordinates."
+    """Convert tiles count to (x, y) coordinates."""
     return (count % 8) * 50 - 200, (count // 8) * 50 - 200
 
 def tap(x, y):
-    "Update mark and hidden tiles based on tap."
+    """Update mark and hidden tiles based on tap."""
     global taps
     spot = index(x, y)
     mark = state['mark']
 
     if hide[spot]:
-        taps += 1   
+        taps += 1 
         if mark is None or mark == spot or tiles[mark] != tiles[spot]:
             state['mark'] = spot
         else:
             hide[spot] = False
             hide[mark] = False
             state['mark'] = None
-            
+
 def draw():
-    "Draw image and tiles."
+    """Draw image and tiles."""
     clear()
     goto(0, 0)
     shape(car)
     stamp()
 
+    # Mostrar contador de taps
     up()
     goto(0, 220)
     color('black')
-    write(f'TAPS: {taps}', align='center', font=('Arial', 24, 'bold'))
+    write(f'TAPS: {taps}', align='center', font=('Comic Sans', 24, 'bold'))
 
     for count in range(64):
         if hide[count]:
             x, y = xy(count)
             square(x, y)
+        else:
+            x, y = xy(count)
+            up()
+            goto(x + 25, y + 8)
+            color('black')
+            write(tiles[count], align='center', font=('Arial', 30, 'normal'))
 
     mark = state['mark']
-
     if mark is not None and hide[mark]:
         x, y = xy(mark)
         up()
-        goto(x + 2, y)
+        goto(x + 25, y + 8)
         color('black')
-        write(tiles[mark], font=('Arial', 30, 'normal'))
+        write(tiles[mark], align='center', font=('Arial', 30, 'normal'))
+
+    if all(not hidden for hidden in hide):
+        goto(0, 0)
+        color('green')
+        write('¡Juego completado!', align='center', font=('Arial', 36, 'bold'))
 
     update()
     ontimer(draw, 100)
 
 shuffle(tiles)
-setup(420, 420, 370, 0)
+setup(520, 520, 370, 0)
 addshape(car)
 hideturtle()
 tracer(False)
